@@ -5,8 +5,10 @@ public class StringCalculator {
         String delimiterRegEx = " *, *| *\n *";
         boolean useCustomDelimiter = false;
         int delimiterEndIndex = numbers.indexOf('\n');
+
         try {
             if (numbers.startsWith("//")) {
+                //getting custom delimiter from first line
                 String additionalDelimiter = numbers.substring(2, delimiterEndIndex).strip();
                 useCustomDelimiter = true;
                 if (additionalDelimiter.length() == 1)
@@ -17,7 +19,8 @@ public class StringCalculator {
         } catch (IndexOutOfBoundsException e) {
             throw new IllegalArgumentException("Error when parsing additional delimiter.");
         }
-        if (useCustomDelimiter)
+
+        if (useCustomDelimiter) //stripping delimiter definition if exists
             numbers = (delimiterEndIndex == numbers.length() - 1 ? "" : numbers.substring(delimiterEndIndex + 1));
 
         if (numbers.length() == 0) return 0;
@@ -30,7 +33,7 @@ public class StringCalculator {
                     throw new IllegalArgumentException("Negatives not allowed. Passed negatives: " +
                             Arrays.toString(Arrays.stream(parsedNumbers).filter(value -> value < 0).toArray()));
 
-                return Arrays.stream(parsedNumbers).sum();
+                return Arrays.stream(parsedNumbers).filter(value -> value <= 1000).sum();
             } else {
                 return Integer.parseInt(split[0]);
             }
