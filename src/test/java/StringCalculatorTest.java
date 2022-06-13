@@ -15,11 +15,9 @@ class StringCalculatorTest {
         assertEquals(-1, StringCalculator.add("-1"));
     }
     @Test
-    void add_TwoNumbers_SumOfTwoNumbers(){
-        assertEquals(5, StringCalculator.add("2, 3"));
-        assertEquals(-1, StringCalculator.add("2, -3"));
-        assertEquals(1, StringCalculator.add("-2, 3"));
-        assertEquals(-5, StringCalculator.add("-2, -3"));
+    void add_UnknownAmountOfNumbers_SumOfAllNumbers(){
+        assertEquals(10, StringCalculator.add("1,2, 3 , 4"));
+        assertEquals(0, StringCalculator.add("1,-2, -3 , 4"));
     }
     @Test
     void add_IllegalNumberFormat_IllegalArgumentException(){
