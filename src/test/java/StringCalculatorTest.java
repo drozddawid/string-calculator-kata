@@ -12,12 +12,10 @@ class StringCalculatorTest {
     void add_SingleNumber_SingleNumber(){
         assertEquals(1, StringCalculator.add("1"));
         assertEquals(0, StringCalculator.add("0"));
-        assertEquals(-1, StringCalculator.add("-1"));
     }
     @Test
     void add_UnknownAmountOfNumbers_SumOfAllNumbers(){
         assertEquals(10, StringCalculator.add("1,2, 3 , 4"));
-        assertEquals(0, StringCalculator.add("1,-2, -3 , 4"));
     }
     @Test
     void add_IllegalNumberFormat_IllegalArgumentException(){
@@ -29,7 +27,6 @@ class StringCalculatorTest {
     @Test
     void add_NumbersSplittedByCommaAndNewlineCharacter_SumOfAllNumbers(){
         assertEquals(15, StringCalculator.add("1\n 2, 3 \n4 \n 5"));
-        assertEquals(5, StringCalculator.add("1\n-2,-3\n4\n5"));
     }
     @Test
     void add_EmptyStringAfterCustomDelimiter_Zero(){
@@ -58,5 +55,10 @@ class StringCalculatorTest {
     void add_NoNewlineCharacterAfterCustomDelimiterDeclaration_IllegalArgumentException(){
         assertThrows(IllegalArgumentException.class, () -> StringCalculator.add("//1, 2, 3, 4"));
         assertThrows(IllegalArgumentException.class, () -> StringCalculator.add("//1, 2 \n 3, 4"));
+    }
+    @Test
+    void add_NegativeNumbers_IllegalArgumentException(){
+        assertThrows(IllegalArgumentException.class, () -> StringCalculator.add("1, 2, -3\n -4, -5"));
+        assertThrows(IllegalArgumentException.class, () -> StringCalculator.add("//;\n 1; -2; -4; 2"));
     }
 }

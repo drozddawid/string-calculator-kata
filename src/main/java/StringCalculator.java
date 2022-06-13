@@ -15,7 +15,7 @@ public class StringCalculator {
                     throw new IllegalArgumentException("Expected delimiter to be one character length, got \"" + additionalDelimiter + "\"");
             }
         } catch (IndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("Error when parsing additional delimiter. Is there any?");
+            throw new IllegalArgumentException("Error when parsing additional delimiter.");
         }
         if (useCustomDelimiter)
             numbers = (delimiterEndIndex == numbers.length() - 1 ? "" : numbers.substring(delimiterEndIndex + 1));
@@ -25,7 +25,12 @@ public class StringCalculator {
         String[] split = numbers.split(delimiterRegEx);
         try {
             if (split.length > 1) {
-                return Arrays.stream(split).mapToInt(Integer::parseInt).sum();
+                int[] parsedNumbers = Arrays.stream(split).mapToInt(Integer::parseInt).toArray();
+                if (Arrays.stream(parsedNumbers).anyMatch(value -> value < 0))
+                    throw new IllegalArgumentException("Negatives not allowed. Passed negatives: " +
+                            Arrays.toString(Arrays.stream(parsedNumbers).filter(value -> value < 0).toArray()));
+
+                return Arrays.stream(parsedNumbers).sum();
             } else {
                 return Integer.parseInt(split[0]);
             }
