@@ -26,4 +26,9 @@ class StringCalculatorTest {
         assertThrows(IllegalArgumentException.class, () -> StringCalculator.add("b, b"));
         assertThrows(IllegalArgumentException.class, () -> StringCalculator.add("b"));
     }
+    @Test
+    void add_NumbersSplittedByCommaAndNewlineCharacter_SumOfAllNumbers(){
+        assertEquals(15, StringCalculator.add("1\n 2, 3 \n4 \n 5"));
+        assertEquals(5, StringCalculator.add("1\n-2,-3\n4\n5"));
+    }
 }
