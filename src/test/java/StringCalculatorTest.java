@@ -31,4 +31,32 @@ class StringCalculatorTest {
         assertEquals(15, StringCalculator.add("1\n 2, 3 \n4 \n 5"));
         assertEquals(5, StringCalculator.add("1\n-2,-3\n4\n5"));
     }
+    @Test
+    void add_EmptyStringAfterCustomDelimiter_Zero(){
+        assertEquals(0, StringCalculator.add("//;\n"));
+    }
+    @Test
+    void add_SingleNumberAfterCustomDelimiter_SingleNumber(){
+        assertEquals(1, StringCalculator.add("//;\n1"));
+    }
+    @Test
+    void add_NumbersSplittedByCustomDelimiter_SumOfAllNumbers(){
+        assertEquals(15, StringCalculator.add("//;\n1 ;2 , 3\n 4 ;5"));
+        assertEquals(15, StringCalculator.add("// ; \n1 ;2 , 3\n 4 ;5"));
+        assertEquals(15, StringCalculator.add("// : \n1 :2 , 3\n 4 :5"));
+    }
+    @Test
+    void add_CustomDelimiterLongerThanOneCharacter_IllegalArgumentException(){
+        assertThrows(IllegalArgumentException.class, () -> StringCalculator.add("//ab\n1, 2, 3 ab 4"));
+    }
+    @Test
+    void add_EmptyStringAsCustomDelimiter_IllegalArgumentException(){
+        assertThrows(IllegalArgumentException.class, () -> StringCalculator.add("//\n1, 2, 3, 4"));
+
+    }
+    @Test
+    void add_NoNewlineCharacterAfterCustomDelimiterDeclaration_IllegalArgumentException(){
+        assertThrows(IllegalArgumentException.class, () -> StringCalculator.add("//1, 2, 3, 4"));
+        assertThrows(IllegalArgumentException.class, () -> StringCalculator.add("//1, 2 \n 3, 4"));
+    }
 }
